@@ -3,8 +3,11 @@ spread.fromJSON(JSON.parse(sessionStorage.getItem('template')), jsonOptions)
 /// begin
 
 // Ref: https://www.grapecity.com.cn/blogs/customize-right-click-insertion
-// 定义插入复制样式insertRowsCopyStyle命令。
-// Command中使用Transaction实现Undo和Redo，execute时先调用原有“gc.spread.contextMenu.insertRows”命令插入行，然后复制插入行前样式。
+// 定义插入复制样式insertRows/ColsCopyStyle命令：
+// Command中使用Transaction实现Undo和Redo，execute时先调用原有"gc.spread.contextMenu.insertRows/insertCols"命令插入行列，
+// 然后使用copyTo复制插入行列前的样式。
+// copyTo API: http://help.grapecity.com/spread/SpreadSheets11/webframe.html#SpreadJS~GC.Spread.Sheets.Worksheet~copyTo.html
+// Or https://demo.grapecity.com.cn/spreadjs/help/api/GC.Spread.Sheets.html#.CopyToOptions
 var insertRowsCopyStyle = {
     canUndo: true,
     name: "insertRowsCopyStyle",
@@ -79,7 +82,7 @@ var insertColsCopyStyle = {
     }
 };
 
-// getSortedRowSelections为对selections按照row Index排序的方法。
+// getSortedRow/ColSelections为对selections按照row/col Index排序的方法：
 function getSortedRowSelections(selections) {
     var sortedRanges = selections;
     for (var i = 0; i < sortedRanges.length - 1; i++) {
@@ -108,11 +111,11 @@ function getSortedColSelections(selections) {
     return sortedRanges;
 }
 
-// 注册insertRowsCopyStyle命令
+// 注册insertRows/ColsCopyStyle命令：
 spread.commandManager().register("insertRowsCopyStyle", insertRowsCopyStyle);
 spread.commandManager().register("insertColsCopyStyle", insertColsCopyStyle);
 
-// 替换原有插入命令
+// 替换原有插入命令：
 function MyContextMenu() {}
 MyContextMenu.prototype = new GC.Spread.Sheets.ContextMenu.ContextMenu(spread);
 MyContextMenu.prototype.onOpenMenu = function (menuData, itemsDataForShown, hitInfo, spread) {
