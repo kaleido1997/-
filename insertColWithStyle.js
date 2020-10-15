@@ -130,11 +130,11 @@ MyContextMenu.prototype.onOpenMenu = function (menuData, itemsDataForShown, hitI
     var sheet = spread.getActiveSheet();
     var selections = sheet.getSelections();
     if(selections[0].row === 1){
-        //删除某项，也可以通过遍历itemsDataForShown找到对应项位置
+        // 删除某项，也可以通过遍历itemsDataForShown找到对应项位置
         itemsDataForShown.splice(1, 1)
     };
     if(selections[0].col === 1){
-        //删除某项，也可以通过遍历itemsDataForShown找到对应项位置
+        // 删除某项，也可以通过遍历itemsDataForShown找到对应项位置
         itemsDataForShown.splice(1, 1)
     }
 };
